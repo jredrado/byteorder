@@ -2496,7 +2496,9 @@ mod test {
             mod $name {
                 #[allow(unused_imports)]
                 use super::{qc_sized, Wi128};
-                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
+                use crate::{
+                    BigEndian, ByteOrder, LittleEndian, NativeEndian,
+                };
 
                 #[test]
                 fn big_endian() {
@@ -2534,8 +2536,10 @@ mod test {
             mod $name {
                 #[allow(unused_imports)]
                 use super::{qc_sized, Wi128};
+                use crate::{
+                    BigEndian, ByteOrder, LittleEndian, NativeEndian,
+                };
                 use core::mem::size_of;
-                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
 
                 #[test]
                 fn big_endian() {
@@ -2587,8 +2591,20 @@ mod test {
         read_i16,
         write_i16
     );
-    qc_byte_order!(prop_u24, u32, crate::test::U24_MAX as u64, read_u24, write_u24);
-    qc_byte_order!(prop_i24, i32, crate::test::I24_MAX as u64, read_i24, write_i24);
+    qc_byte_order!(
+        prop_u24,
+        u32,
+        crate::test::U24_MAX as u64,
+        read_u24,
+        write_u24
+    );
+    qc_byte_order!(
+        prop_i24,
+        i32,
+        crate::test::I24_MAX as u64,
+        read_i24,
+        write_i24
+    );
     qc_byte_order!(
         prop_u32,
         u32,
@@ -2603,8 +2619,20 @@ mod test {
         read_i32,
         write_i32
     );
-    qc_byte_order!(prop_u48, u64, crate::test::U48_MAX as u64, read_u48, write_u48);
-    qc_byte_order!(prop_i48, i64, crate::test::I48_MAX as u64, read_i48, write_i48);
+    qc_byte_order!(
+        prop_u48,
+        u64,
+        crate::test::U48_MAX as u64,
+        read_u48,
+        write_u48
+    );
+    qc_byte_order!(
+        prop_i48,
+        i64,
+        crate::test::I48_MAX as u64,
+        read_i48,
+        write_i48
+    );
     qc_byte_order!(
         prop_u64,
         u64,
@@ -3068,7 +3096,9 @@ mod test {
         ($name:ident, $maximally_small:expr, $zero:expr,
          $read:ident, $write:ident) => {
             mod $name {
-                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
+                use crate::{
+                    BigEndian, ByteOrder, LittleEndian, NativeEndian,
+                };
 
                 #[test]
                 #[should_panic]
@@ -3115,7 +3145,9 @@ mod test {
         };
         ($name:ident, $maximally_small:expr, $read:ident) => {
             mod $name {
-                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
+                use crate::{
+                    BigEndian, ByteOrder, LittleEndian, NativeEndian,
+                };
 
                 #[test]
                 #[should_panic]
@@ -3237,7 +3269,9 @@ mod test {
         ($name:ident, $read:ident, $write:ident,
          $num_bytes:expr, $numbers:expr) => {
             mod $name {
-                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
+                use crate::{
+                    BigEndian, ByteOrder, LittleEndian, NativeEndian,
+                };
 
                 #[test]
                 #[should_panic]
@@ -3445,13 +3479,13 @@ mod stdtests {
         ($name:ident, $ty_int:ty, $max:expr,
          $bytes:expr, $read:ident, $write:ident) => {
             mod $name {
-                use bare_io::Cursor;
                 #[allow(unused_imports)]
                 use crate::test::{qc_sized, Wi128};
                 use crate::{
                     BigEndian, LittleEndian, NativeEndian, ReadBytesExt,
                     WriteBytesExt,
                 };
+                use bare_io::Cursor;
 
                 #[test]
                 fn big_endian() {
@@ -3495,13 +3529,13 @@ mod stdtests {
         };
         ($name:ident, $ty_int:ty, $max:expr, $read:ident, $write:ident) => {
             mod $name {
-                use bare_io::Cursor;
                 #[allow(unused_imports)]
                 use crate::test::{qc_sized, Wi128};
                 use crate::{
                     BigEndian, LittleEndian, NativeEndian, ReadBytesExt,
                     WriteBytesExt,
                 };
+                use bare_io::Cursor;
 
                 #[test]
                 fn big_endian() {
@@ -4026,10 +4060,12 @@ mod stdtests {
         ($name:ident, $ty_int:ty, $read:ident, $write:ident, $zero:expr) => {
             mod $name {
                 use super::qc_unsized;
-                use core::mem::size_of;
                 #[allow(unused_imports)]
                 use crate::test::Wi128;
-                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
+                use crate::{
+                    BigEndian, ByteOrder, LittleEndian, NativeEndian,
+                };
+                use core::mem::size_of;
 
                 #[test]
                 fn big_endian() {
