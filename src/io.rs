@@ -1,9 +1,9 @@
-use std::io::{self, Result};
-use std::slice;
+use bare_io::{self as io, Result};
+use core::slice;
 
-use ByteOrder;
+use crate::ByteOrder;
 
-/// Extends [`Read`] with methods for reading numbers. (For `std::io`.)
+/// Extends [`Read`] with methods for reading numbers. (For `bare_io`.)
 ///
 /// Most of the methods defined here have an unconstrained type parameter that
 /// must be explicitly instantiated. Typically, it is instantiated with either
@@ -14,7 +14,7 @@ use ByteOrder;
 /// Read unsigned 16 bit big-endian integers from a [`Read`]:
 ///
 /// ```rust
-/// use std::io::Cursor;
+/// use bare_io::Cursor;
 /// use byteorder::{BigEndian, ReadBytesExt};
 ///
 /// let mut rdr = Cursor::new(vec![2, 5, 3, 0]);
@@ -42,7 +42,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read unsigned 8 bit integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::ReadBytesExt;
     ///
     /// let mut rdr = Cursor::new(vec![2, 5]);
@@ -52,7 +52,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_u8(&mut self) -> Result<u8> {
         let mut buf = [0; 1];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(buf[0])
     }
 
@@ -72,7 +72,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read signed 8 bit integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::ReadBytesExt;
     ///
     /// let mut rdr = Cursor::new(vec![0x02, 0xfb]);
@@ -82,7 +82,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_i8(&mut self) -> Result<i8> {
         let mut buf = [0; 1];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(buf[0] as i8)
     }
 
@@ -99,7 +99,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read unsigned 16 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![2, 5, 3, 0]);
@@ -109,7 +109,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_u16<T: ByteOrder>(&mut self) -> Result<u16> {
         let mut buf = [0; 2];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_u16(&buf))
     }
 
@@ -126,7 +126,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read signed 16 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x00, 0xc1, 0xff, 0x7c]);
@@ -136,7 +136,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_i16<T: ByteOrder>(&mut self) -> Result<i16> {
         let mut buf = [0; 2];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_i16(&buf))
     }
 
@@ -153,7 +153,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read unsigned 24 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x00, 0x01, 0x0b]);
@@ -162,7 +162,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_u24<T: ByteOrder>(&mut self) -> Result<u32> {
         let mut buf = [0; 3];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_u24(&buf))
     }
 
@@ -179,7 +179,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read signed 24 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0xff, 0x7a, 0x33]);
@@ -188,7 +188,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_i24<T: ByteOrder>(&mut self) -> Result<i32> {
         let mut buf = [0; 3];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_i24(&buf))
     }
 
@@ -205,7 +205,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read unsigned 32 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x00, 0x00, 0x01, 0x0b]);
@@ -214,7 +214,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_u32<T: ByteOrder>(&mut self) -> Result<u32> {
         let mut buf = [0; 4];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_u32(&buf))
     }
 
@@ -231,7 +231,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read signed 32 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0xff, 0xff, 0x7a, 0x33]);
@@ -240,7 +240,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_i32<T: ByteOrder>(&mut self) -> Result<i32> {
         let mut buf = [0; 4];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_i32(&buf))
     }
 
@@ -257,7 +257,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read unsigned 48 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0xb6, 0x71, 0x6b, 0xdc, 0x2b, 0x31]);
@@ -266,7 +266,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_u48<T: ByteOrder>(&mut self) -> Result<u64> {
         let mut buf = [0; 6];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_u48(&buf))
     }
 
@@ -283,7 +283,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read signed 48 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x9d, 0x71, 0xab, 0xe7, 0x97, 0x8f]);
@@ -292,7 +292,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_i48<T: ByteOrder>(&mut self) -> Result<i64> {
         let mut buf = [0; 6];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_i48(&buf))
     }
 
@@ -309,7 +309,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read an unsigned 64 bit big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x00, 0x03, 0x43, 0x95, 0x4d, 0x60, 0x86, 0x83]);
@@ -318,7 +318,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_u64<T: ByteOrder>(&mut self) -> Result<u64> {
         let mut buf = [0; 8];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_u64(&buf))
     }
 
@@ -335,7 +335,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a signed 64 bit big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x80, 0, 0, 0, 0, 0, 0, 0]);
@@ -344,7 +344,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_i64<T: ByteOrder>(&mut self) -> Result<i64> {
         let mut buf = [0; 8];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_i64(&buf))
     }
 
@@ -361,7 +361,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read an unsigned 128 bit big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![
@@ -374,7 +374,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_u128<T: ByteOrder>(&mut self) -> Result<u128> {
         let mut buf = [0; 16];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_u128(&buf))
     }
 
@@ -391,7 +391,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a signed 128 bit big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -401,7 +401,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_i128<T: ByteOrder>(&mut self) -> Result<i128> {
         let mut buf = [0; 16];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_i128(&buf))
     }
 
@@ -418,7 +418,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read an unsigned n-byte big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x80, 0x74, 0xfa]);
@@ -426,7 +426,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_uint<T: ByteOrder>(&mut self, nbytes: usize) -> Result<u64> {
         let mut buf = [0; 8];
-        try!(self.read_exact(&mut buf[..nbytes]));
+        self.read_exact(&mut buf[..nbytes])?;
         Ok(T::read_uint(&buf[..nbytes], nbytes))
     }
 
@@ -443,7 +443,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read an unsigned n-byte big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0xc1, 0xff, 0x7c]);
@@ -451,7 +451,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_int<T: ByteOrder>(&mut self, nbytes: usize) -> Result<i64> {
         let mut buf = [0; 8];
-        try!(self.read_exact(&mut buf[..nbytes]));
+        self.read_exact(&mut buf[..nbytes])?;
         Ok(T::read_int(&buf[..nbytes], nbytes))
     }
 
@@ -460,7 +460,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_uint128<T: ByteOrder>(&mut self, nbytes: usize) -> Result<u128> {
         let mut buf = [0; 16];
-        try!(self.read_exact(&mut buf[..nbytes]));
+        self.read_exact(&mut buf[..nbytes])?;
         Ok(T::read_uint128(&buf[..nbytes], nbytes))
     }
 
@@ -469,7 +469,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_int128<T: ByteOrder>(&mut self, nbytes: usize) -> Result<i128> {
         let mut buf = [0; 16];
-        try!(self.read_exact(&mut buf[..nbytes]));
+        self.read_exact(&mut buf[..nbytes])?;
         Ok(T::read_int128(&buf[..nbytes], nbytes))
     }
 
@@ -488,7 +488,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f32;
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
@@ -500,7 +500,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_f32<T: ByteOrder>(&mut self) -> Result<f32> {
         let mut buf = [0; 4];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_f32(&buf))
     }
 
@@ -519,7 +519,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f64;
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
@@ -531,7 +531,7 @@ pub trait ReadBytesExt: io::Read {
     #[inline]
     fn read_f64<T: ByteOrder>(&mut self) -> Result<f64> {
         let mut buf = [0; 8];
-        try!(self.read_exact(&mut buf));
+        self.read_exact(&mut buf)?;
         Ok(T::read_f64(&buf))
     }
 
@@ -552,7 +552,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of unsigned 16 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![2, 5, 3, 0]);
@@ -564,7 +564,7 @@ pub trait ReadBytesExt: io::Read {
     fn read_u16_into<T: ByteOrder>(&mut self, dst: &mut [u16]) -> Result<()> {
         {
             let buf = unsafe { slice_to_u8_mut(dst) };
-            try!(self.read_exact(buf));
+            self.read_exact(buf)?;
         }
         T::from_slice_u16(dst);
         Ok(())
@@ -587,7 +587,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of unsigned 32 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0, 0, 2, 5, 0, 0, 3, 0]);
@@ -599,7 +599,7 @@ pub trait ReadBytesExt: io::Read {
     fn read_u32_into<T: ByteOrder>(&mut self, dst: &mut [u32]) -> Result<()> {
         {
             let buf = unsafe { slice_to_u8_mut(dst) };
-            try!(self.read_exact(buf));
+            self.read_exact(buf)?;
         }
         T::from_slice_u32(dst);
         Ok(())
@@ -622,7 +622,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of unsigned 64 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![
@@ -637,7 +637,7 @@ pub trait ReadBytesExt: io::Read {
     fn read_u64_into<T: ByteOrder>(&mut self, dst: &mut [u64]) -> Result<()> {
         {
             let buf = unsafe { slice_to_u8_mut(dst) };
-            try!(self.read_exact(buf));
+            self.read_exact(buf)?;
         }
         T::from_slice_u64(dst);
         Ok(())
@@ -660,7 +660,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of unsigned 128 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![
@@ -679,7 +679,7 @@ pub trait ReadBytesExt: io::Read {
     ) -> Result<()> {
         {
             let buf = unsafe { slice_to_u8_mut(dst) };
-            try!(self.read_exact(buf));
+            self.read_exact(buf)?;
         }
         T::from_slice_u128(dst);
         Ok(())
@@ -707,7 +707,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of signed 8 bit integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![2, 251, 3]);
@@ -738,7 +738,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of signed 16 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![2, 5, 3, 0]);
@@ -750,7 +750,7 @@ pub trait ReadBytesExt: io::Read {
     fn read_i16_into<T: ByteOrder>(&mut self, dst: &mut [i16]) -> Result<()> {
         {
             let buf = unsafe { slice_to_u8_mut(dst) };
-            try!(self.read_exact(buf));
+            self.read_exact(buf)?;
         }
         T::from_slice_i16(dst);
         Ok(())
@@ -773,7 +773,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of signed 32 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0, 0, 2, 5, 0, 0, 3, 0]);
@@ -785,7 +785,7 @@ pub trait ReadBytesExt: io::Read {
     fn read_i32_into<T: ByteOrder>(&mut self, dst: &mut [i32]) -> Result<()> {
         {
             let buf = unsafe { slice_to_u8_mut(dst) };
-            try!(self.read_exact(buf));
+            self.read_exact(buf)?;
         }
         T::from_slice_i32(dst);
         Ok(())
@@ -808,7 +808,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of signed 64 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![
@@ -823,7 +823,7 @@ pub trait ReadBytesExt: io::Read {
     fn read_i64_into<T: ByteOrder>(&mut self, dst: &mut [i64]) -> Result<()> {
         {
             let buf = unsafe { slice_to_u8_mut(dst) };
-            try!(self.read_exact(buf));
+            self.read_exact(buf)?;
         }
         T::from_slice_i64(dst);
         Ok(())
@@ -846,7 +846,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of signed 128 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![
@@ -865,7 +865,7 @@ pub trait ReadBytesExt: io::Read {
     ) -> Result<()> {
         {
             let buf = unsafe { slice_to_u8_mut(dst) };
-            try!(self.read_exact(buf));
+            self.read_exact(buf)?;
         }
         T::from_slice_i128(dst);
         Ok(())
@@ -890,7 +890,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f32;
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
@@ -906,7 +906,7 @@ pub trait ReadBytesExt: io::Read {
     fn read_f32_into<T: ByteOrder>(&mut self, dst: &mut [f32]) -> Result<()> {
         {
             let buf = unsafe { slice_to_u8_mut(dst) };
-            try!(self.read_exact(buf));
+            self.read_exact(buf)?;
         }
         T::from_slice_f32(dst);
         Ok(())
@@ -935,7 +935,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f32;
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
@@ -975,7 +975,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f64;
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
@@ -991,7 +991,7 @@ pub trait ReadBytesExt: io::Read {
     fn read_f64_into<T: ByteOrder>(&mut self, dst: &mut [f64]) -> Result<()> {
         {
             let buf = unsafe { slice_to_u8_mut(dst) };
-            try!(self.read_exact(buf));
+            self.read_exact(buf)?;
         }
         T::from_slice_f64(dst);
         Ok(())
@@ -1026,7 +1026,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f64;
-    /// use std::io::Cursor;
+    /// use bare_io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
@@ -1052,7 +1052,7 @@ pub trait ReadBytesExt: io::Read {
 /// for free.
 impl<R: io::Read + ?Sized> ReadBytesExt for R {}
 
-/// Extends [`Write`] with methods for writing numbers. (For `std::io`.)
+/// Extends [`Write`] with methods for writing numbers. (For `bare_io`.)
 ///
 /// Most of the methods defined here have an unconstrained type parameter that
 /// must be explicitly instantiated. Typically, it is instantiated with either
@@ -1592,7 +1592,7 @@ impl<W: io::Write + ?Sized> WriteBytesExt for W {}
 /// This function is wildly unsafe because it permits arbitrary modification of
 /// the binary representation of any `Copy` type. Use with care.
 unsafe fn slice_to_u8_mut<T: Copy>(slice: &mut [T]) -> &mut [u8] {
-    use std::mem::size_of;
+    use core::mem::size_of;
 
     let len = size_of::<T>() * slice.len();
     slice::from_raw_parts_mut(slice.as_mut_ptr() as *mut u8, len)

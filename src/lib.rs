@@ -21,7 +21,7 @@ conversions are not desired.
 Read unsigned 16 bit big-endian integers from a [`Read`] type:
 
 ```rust
-use std::io::Cursor;
+use bare_io::Cursor;
 use byteorder::{BigEndian, ReadBytesExt};
 
 let mut rdr = Cursor::new(vec![2, 5, 3, 0]);
@@ -67,23 +67,16 @@ cases.
 [`Write`]: https://doc.rust-lang.org/std/io/trait.Write.html
 */
 
-// For the 'try!' macro, until we bump MSRV past 1.12.
-#![allow(deprecated)]
 #![deny(missing_docs)]
 #![cfg_attr(not(feature = "std"), no_std)]
-
-#[cfg(feature = "std")]
-extern crate core;
 
 use core::fmt::Debug;
 use core::hash::Hash;
 use core::ptr::copy_nonoverlapping;
 use core::slice;
 
-#[cfg(feature = "std")]
 pub use io::{ReadBytesExt, WriteBytesExt};
 
-#[cfg(feature = "std")]
 mod io;
 
 #[inline]
@@ -2503,7 +2496,7 @@ mod test {
             mod $name {
                 #[allow(unused_imports)]
                 use super::{qc_sized, Wi128};
-                use {BigEndian, ByteOrder, LittleEndian, NativeEndian};
+                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
 
                 #[test]
                 fn big_endian() {
@@ -2542,7 +2535,7 @@ mod test {
                 #[allow(unused_imports)]
                 use super::{qc_sized, Wi128};
                 use core::mem::size_of;
-                use {BigEndian, ByteOrder, LittleEndian, NativeEndian};
+                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
 
                 #[test]
                 fn big_endian() {
@@ -2594,8 +2587,8 @@ mod test {
         read_i16,
         write_i16
     );
-    qc_byte_order!(prop_u24, u32, ::test::U24_MAX as u64, read_u24, write_u24);
-    qc_byte_order!(prop_i24, i32, ::test::I24_MAX as u64, read_i24, write_i24);
+    qc_byte_order!(prop_u24, u32, crate::test::U24_MAX as u64, read_u24, write_u24);
+    qc_byte_order!(prop_i24, i32, crate::test::I24_MAX as u64, read_i24, write_i24);
     qc_byte_order!(
         prop_u32,
         u32,
@@ -2610,8 +2603,8 @@ mod test {
         read_i32,
         write_i32
     );
-    qc_byte_order!(prop_u48, u64, ::test::U48_MAX as u64, read_u48, write_u48);
-    qc_byte_order!(prop_i48, i64, ::test::I48_MAX as u64, read_i48, write_i48);
+    qc_byte_order!(prop_u48, u64, crate::test::U48_MAX as u64, read_u48, write_u48);
+    qc_byte_order!(prop_i48, i64, crate::test::I48_MAX as u64, read_i48, write_i48);
     qc_byte_order!(
         prop_u64,
         u64,
@@ -3075,7 +3068,7 @@ mod test {
         ($name:ident, $maximally_small:expr, $zero:expr,
          $read:ident, $write:ident) => {
             mod $name {
-                use {BigEndian, ByteOrder, LittleEndian, NativeEndian};
+                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
 
                 #[test]
                 #[should_panic]
@@ -3122,7 +3115,7 @@ mod test {
         };
         ($name:ident, $maximally_small:expr, $read:ident) => {
             mod $name {
-                use {BigEndian, ByteOrder, LittleEndian, NativeEndian};
+                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
 
                 #[test]
                 #[should_panic]
@@ -3244,7 +3237,7 @@ mod test {
         ($name:ident, $read:ident, $write:ident,
          $num_bytes:expr, $numbers:expr) => {
             mod $name {
-                use {BigEndian, ByteOrder, LittleEndian, NativeEndian};
+                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
 
                 #[test]
                 #[should_panic]
@@ -3419,7 +3412,7 @@ mod test {
 
     #[test]
     fn uint_bigger_buffer() {
-        use {ByteOrder, LittleEndian};
+        use crate::{ByteOrder, LittleEndian};
         let n = LittleEndian::read_uint(&[1, 2, 3, 4, 5, 6, 7, 8], 5);
         assert_eq!(n, 0x05_0403_0201);
     }
@@ -3452,10 +3445,10 @@ mod stdtests {
         ($name:ident, $ty_int:ty, $max:expr,
          $bytes:expr, $read:ident, $write:ident) => {
             mod $name {
-                use std::io::Cursor;
+                use bare_io::Cursor;
                 #[allow(unused_imports)]
-                use test::{qc_sized, Wi128};
-                use {
+                use crate::test::{qc_sized, Wi128};
+                use crate::{
                     BigEndian, LittleEndian, NativeEndian, ReadBytesExt,
                     WriteBytesExt,
                 };
@@ -3502,10 +3495,10 @@ mod stdtests {
         };
         ($name:ident, $ty_int:ty, $max:expr, $read:ident, $write:ident) => {
             mod $name {
-                use std::io::Cursor;
+                use bare_io::Cursor;
                 #[allow(unused_imports)]
-                use test::{qc_sized, Wi128};
-                use {
+                use crate::test::{qc_sized, Wi128};
+                use crate::{
                     BigEndian, LittleEndian, NativeEndian, ReadBytesExt,
                     WriteBytesExt,
                 };
@@ -3611,7 +3604,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_uint_1,
         u64,
-        calc_max!(::test::U64_MAX, 1),
+        calc_max!(crate::test::U64_MAX, 1),
         1,
         read_uint,
         write_u64
@@ -3619,7 +3612,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_uint_2,
         u64,
-        calc_max!(::test::U64_MAX, 2),
+        calc_max!(crate::test::U64_MAX, 2),
         2,
         read_uint,
         write_u64
@@ -3627,7 +3620,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_uint_3,
         u64,
-        calc_max!(::test::U64_MAX, 3),
+        calc_max!(crate::test::U64_MAX, 3),
         3,
         read_uint,
         write_u64
@@ -3635,7 +3628,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_uint_4,
         u64,
-        calc_max!(::test::U64_MAX, 4),
+        calc_max!(crate::test::U64_MAX, 4),
         4,
         read_uint,
         write_u64
@@ -3643,7 +3636,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_uint_5,
         u64,
-        calc_max!(::test::U64_MAX, 5),
+        calc_max!(crate::test::U64_MAX, 5),
         5,
         read_uint,
         write_u64
@@ -3651,7 +3644,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_uint_6,
         u64,
-        calc_max!(::test::U64_MAX, 6),
+        calc_max!(crate::test::U64_MAX, 6),
         6,
         read_uint,
         write_u64
@@ -3659,7 +3652,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_uint_7,
         u64,
-        calc_max!(::test::U64_MAX, 7),
+        calc_max!(crate::test::U64_MAX, 7),
         7,
         read_uint,
         write_u64
@@ -3667,7 +3660,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_uint_8,
         u64,
-        calc_max!(::test::U64_MAX, 8),
+        calc_max!(crate::test::U64_MAX, 8),
         8,
         read_uint,
         write_u64
@@ -3821,7 +3814,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_int_1,
         i64,
-        calc_max!(::test::I64_MAX, 1),
+        calc_max!(crate::test::I64_MAX, 1),
         1,
         read_int,
         write_i64
@@ -3829,7 +3822,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_int_2,
         i64,
-        calc_max!(::test::I64_MAX, 2),
+        calc_max!(crate::test::I64_MAX, 2),
         2,
         read_int,
         write_i64
@@ -3837,7 +3830,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_int_3,
         i64,
-        calc_max!(::test::I64_MAX, 3),
+        calc_max!(crate::test::I64_MAX, 3),
         3,
         read_int,
         write_i64
@@ -3845,7 +3838,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_int_4,
         i64,
-        calc_max!(::test::I64_MAX, 4),
+        calc_max!(crate::test::I64_MAX, 4),
         4,
         read_int,
         write_i64
@@ -3853,7 +3846,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_int_5,
         i64,
-        calc_max!(::test::I64_MAX, 5),
+        calc_max!(crate::test::I64_MAX, 5),
         5,
         read_int,
         write_i64
@@ -3861,7 +3854,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_int_6,
         i64,
-        calc_max!(::test::I64_MAX, 6),
+        calc_max!(crate::test::I64_MAX, 6),
         6,
         read_int,
         write_i64
@@ -3869,7 +3862,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_int_7,
         i64,
-        calc_max!(::test::I64_MAX, 1),
+        calc_max!(crate::test::I64_MAX, 1),
         7,
         read_int,
         write_i64
@@ -3877,7 +3870,7 @@ mod stdtests {
     qc_bytes_ext!(
         prop_ext_int_8,
         i64,
-        calc_max!(::test::I64_MAX, 8),
+        calc_max!(crate::test::I64_MAX, 8),
         8,
         read_int,
         write_i64
@@ -4035,8 +4028,8 @@ mod stdtests {
                 use super::qc_unsized;
                 use core::mem::size_of;
                 #[allow(unused_imports)]
-                use test::Wi128;
-                use {BigEndian, ByteOrder, LittleEndian, NativeEndian};
+                use crate::test::Wi128;
+                use crate::{BigEndian, ByteOrder, LittleEndian, NativeEndian};
 
                 #[test]
                 fn big_endian() {
