@@ -19,7 +19,7 @@ name = "byteorder"
 bench = false
 
 [dependencies]
-bare-io = { git = "https://github.com/bbqsrc/bare-io", branch = "main", package="core2"}
+bare-io = { git = "https://github.com/bbqsrc/core2", branch = "main", package="core2", default-features=false}
 
 [dev-dependencies]
 quickcheck = { version = "0.8", default-features = false }
