@@ -21,7 +21,7 @@ conversions are not desired.
 Read unsigned 16 bit big-endian integers from a [`Read`] type:
 
 ```rust
-use bare_io::Cursor;
+use bare_io::io::Cursor;
 use byteorder::{BigEndian, ReadBytesExt};
 
 let mut rdr = Cursor::new(vec![2, 5, 3, 0]);
@@ -3485,7 +3485,7 @@ mod stdtests {
                     BigEndian, LittleEndian, NativeEndian, ReadBytesExt,
                     WriteBytesExt,
                 };
-                use bare_io::Cursor;
+                use bare_io::io::Cursor;
 
                 #[test]
                 fn big_endian() {
@@ -3535,7 +3535,7 @@ mod stdtests {
                     BigEndian, LittleEndian, NativeEndian, ReadBytesExt,
                     WriteBytesExt,
                 };
-                use bare_io::Cursor;
+                use bare_io::io::Cursor;
 
                 #[test]
                 fn big_endian() {

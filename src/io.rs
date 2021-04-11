@@ -1,4 +1,4 @@
-use bare_io::{self as io, Result};
+use bare_io::io::{self as io,Result};
 use core::slice;
 
 use crate::ByteOrder;
@@ -14,7 +14,7 @@ use crate::ByteOrder;
 /// Read unsigned 16 bit big-endian integers from a [`Read`]:
 ///
 /// ```rust
-/// use bare_io::Cursor;
+/// use bare_io::io::Cursor;
 /// use byteorder::{BigEndian, ReadBytesExt};
 ///
 /// let mut rdr = Cursor::new(vec![2, 5, 3, 0]);
@@ -42,7 +42,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read unsigned 8 bit integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::ReadBytesExt;
     ///
     /// let mut rdr = Cursor::new(vec![2, 5]);
@@ -72,7 +72,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read signed 8 bit integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::ReadBytesExt;
     ///
     /// let mut rdr = Cursor::new(vec![0x02, 0xfb]);
@@ -99,7 +99,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read unsigned 16 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![2, 5, 3, 0]);
@@ -126,7 +126,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read signed 16 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x00, 0xc1, 0xff, 0x7c]);
@@ -153,7 +153,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read unsigned 24 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x00, 0x01, 0x0b]);
@@ -179,7 +179,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read signed 24 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0xff, 0x7a, 0x33]);
@@ -205,7 +205,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read unsigned 32 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x00, 0x00, 0x01, 0x0b]);
@@ -231,7 +231,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read signed 32 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0xff, 0xff, 0x7a, 0x33]);
@@ -257,7 +257,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read unsigned 48 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0xb6, 0x71, 0x6b, 0xdc, 0x2b, 0x31]);
@@ -283,7 +283,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read signed 48 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x9d, 0x71, 0xab, 0xe7, 0x97, 0x8f]);
@@ -309,7 +309,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read an unsigned 64 bit big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x00, 0x03, 0x43, 0x95, 0x4d, 0x60, 0x86, 0x83]);
@@ -335,7 +335,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a signed 64 bit big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x80, 0, 0, 0, 0, 0, 0, 0]);
@@ -361,7 +361,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read an unsigned 128 bit big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![
@@ -391,7 +391,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a signed 128 bit big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
@@ -418,7 +418,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read an unsigned n-byte big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0x80, 0x74, 0xfa]);
@@ -443,7 +443,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read an unsigned n-byte big-endian integer from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0xc1, 0xff, 0x7c]);
@@ -488,7 +488,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f32;
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
@@ -519,7 +519,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f64;
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
@@ -552,7 +552,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of unsigned 16 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![2, 5, 3, 0]);
@@ -587,7 +587,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of unsigned 32 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0, 0, 2, 5, 0, 0, 3, 0]);
@@ -622,7 +622,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of unsigned 64 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![
@@ -660,7 +660,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of unsigned 128 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![
@@ -707,7 +707,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of signed 8 bit integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![2, 251, 3]);
@@ -738,7 +738,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of signed 16 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![2, 5, 3, 0]);
@@ -773,7 +773,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of signed 32 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![0, 0, 2, 5, 0, 0, 3, 0]);
@@ -808,7 +808,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of signed 64 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![
@@ -846,7 +846,7 @@ pub trait ReadBytesExt: io::Read {
     /// Read a sequence of signed 128 bit big-endian integers from a `Read`:
     ///
     /// ```rust
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
     /// let mut rdr = Cursor::new(vec![
@@ -890,7 +890,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f32;
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
@@ -935,7 +935,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f32;
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
@@ -975,7 +975,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f64;
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
@@ -1026,7 +1026,7 @@ pub trait ReadBytesExt: io::Read {
     ///
     /// ```rust
     /// use std::f64;
-    /// use bare_io::Cursor;
+    /// use bare_io::io::Cursor;
     ///
     /// use byteorder::{BigEndian, ReadBytesExt};
     ///
