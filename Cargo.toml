@@ -1,6 +1,6 @@
 [package]
 name = "byteorder_bare-io"
-version = "0.1.0+byteorder.1.3.4"  #:version
+version = "0.2.0+byteorder.1.3.4"  #:version
 authors = ["Andrew Gallant <jamslam@gmail.com>", "Brendan Molloy <brendan@bbqsrc.net>"]
 description = "Library for reading/writing numbers in big-endian and little-endian."
 documentation = "https://docs.rs/byteorder"
